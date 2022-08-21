@@ -19,7 +19,11 @@ export const getToken = () => {
     return fetch(`${API_ENDPOINT}/token`, COMMON_HEADERS).then(response => response.json());
 };
 
-export const findFalcone = (data: FindFalconeAPIBody) => {
+export const findFalcone = (data: {
+    token: string,
+    planet_names: Array<string>,
+    vehicle_names: Array<string>
+}) => {
     return fetch(`${API_ENDPOINT}/find`, {
         ...COMMON_HEADERS,
         body: JSON.stringify(data)

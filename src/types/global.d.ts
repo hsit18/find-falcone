@@ -1,6 +1,11 @@
 export { };
 
 declare global {
+    interface Destination {
+        timeTaken?: number;
+        planet: Planet;
+        vehicle?: Vehicle;
+    }
     interface Planet {
         name: string;
         distance: number;
@@ -13,9 +18,12 @@ declare global {
         speed: number;
     }
 
-    interface FindFalconeAPIBody {
+    interface FalconeStore {
         token: string;
-        planets: Array<string>;
-        vehicles: Array<string>;
+        planets: Array<Planet>;
+        vehicles: Array<Vehicle>;
+        selectedDestinations: {
+            [key: string]: Destination
+        }
     }
 }

@@ -9,46 +9,66 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 
 export interface DestinationProps {
-    index: number;
-    planets: Array<Planet>;
-    vehicles: Array<Vehicle>;
-    selectedPanet?: Planet;
-    selectedVehicle?: Vehicle;
-    handleChange: (event: SelectChangeEvent | React.ChangeEvent<HTMLInputElement>) => void
+	index: number;
+	planets: Array<Planet>;
+	vehicles: Array<Vehicle>;
+	selectedDestination?: Destination;
+	handleChange: (type: string, index: number, value: string) => void
 };
 
-const Destination = ({ index, planets, vehicles, selectedPanet, selectedVehicle, handleChange }: DestinationProps) => {
-    return (
-        <>
-            <FormControl size="small" fullWidth>
-                <InputLabel id={`destination-${index}`}>Destination {index + 1}</InputLabel>
-                <Select
-                    labelId={`destination-${index}`}
-                    value={selectedPanet?.name || ''}
-                    label={`Destination ${index}`}
-                    onChange={handleChange}
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    {planets.map((planet: Planet) => <MenuItem value={planet.name}>{planet.name}</MenuItem>)}
-                </Select>
-            </FormControl>
-            <FormControl>
-                <FormLabel id={`vehicle-${index}`}>Vehicle</FormLabel>
-                <RadioGroup
-                    aria-labelledby={`vehicle-${index}`}
-                    name={`vehicle-${index}`}
-                    onChange={handleChange}
-                    value={selectedVehicle}
-                >
-                    {vehicles.map((vehicle: Vehicle) => (
-                        <FormControlLabel key={vehicle.name} value={vehicle.name} control={<Radio />} label={vehicle.name} />
-                    ))}
-                </RadioGroup>
-            </FormControl>
-        </>
-    )
+const Destination = ({ index, planets, vehicles, selectedDestination, handleChange }: DestinationProps) => {
+
+	const onChangeDestination = (event: SelectChangeEvent) => {
+		handleChange('PLANET', index, event.target.value)
+	}
+
+	const onChangeVehicle = (event: React.ChangeEvent<HTMLInputElement>) => {
+		handleChange('VEHICLE', index, event.target.value)
+	}
+
+	const getIsRangeLess = (vehicleMaxDistance: number) => {
+		let distance = selectedDestination?.planet ? selectedDestination?.planet.distance : 0;
+		return distance > vehicleMaxDistance;
+	};
+
+	const selectedValue = selectedDestination?.planet?.name || "Select Destination";
+	return (
+		<>
+			<FormControl size="small" fullWidth>
+				<InputLabel shrink htmlFor={`destination-${index}`}>{`Select Destination ${index + 1}`}</InputLabel>
+				<Select
+					native
+					labelId={`destination-${index}`}
+					value={selectedValue}
+					onChange={onChangeDestination}
+					label={`Destination ${index}`}
+					inputProps={{
+						id: `destination-${index}`,
+					}}
+				>
+					<option value={selectedValue}>{selectedValue}</option>
+					{planets.map((planet: Planet) => <option value={planet.name}>{planet.name}</option>)}
+				</Select>
+			</FormControl>
+			{selectedDestination?.planet?.name &&
+				(<FormControl>
+					<FormLabel id={`vehicle-${index}`}>Vehicle</FormLabel>
+					<RadioGroup
+						aria-labelledby={`vehicle-${index}`}
+						name={`vehicle-${index}`}
+						onChange={onChangeVehicle}
+						value={selectedDestination?.vehicle?.name}
+					>
+						{vehicles.map((vehicle: Vehicle) => (
+							<FormControlLabel key={vehicle.name} value={vehicle.name} control={<Radio />} label={`${vehicle.name} - ${vehicle.total_no}`} disabled={vehicle.total_no === 0 || getIsRangeLess(vehicle.max_distance) ? true : false}
+							/>
+						))}
+					</RadioGroup>
+				</FormControl>
+				)
+			}
+		</>
+	)
 };
 
 export default Destination;

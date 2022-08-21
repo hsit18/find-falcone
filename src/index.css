@@ -15,3 +15,6 @@ code {
 .destination {
   padding: 12px;
 }
+main, header {
+  padding: 0 12px;
+}

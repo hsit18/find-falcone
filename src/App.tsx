@@ -1,7 +1,6 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Routes, Route } from "react-router-dom";
-import './App.css';
 import FindFalconePage from './pages/FindFalconePage';
 import ResultPage from './pages/ResultPage';
 
