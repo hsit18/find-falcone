@@ -1,5 +1,6 @@
 {
   "name": "find-falcone",
+  "homepage": "https://hsit18.github.io/find-falcone",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
