@@ -122,7 +122,7 @@ const FindFalconePage = () => {
 			<Grid direction="row" container spacing={2}>
 				{
 					[...Array(MAX_DESTINATION).keys()].map((d, index) => (
-						<Grid item xl={3} xs={12} lg={3} md={5}>
+						<Grid key={index} item xl={3} xs={12} lg={3} md={5}>
 							<Paper elevation={8} className="destination">
 								<Destination
 									index={index}
@@ -162,7 +162,6 @@ const FindFalconePage = () => {
 					</Card>
 				</Grid>
 			</Grid>
-
 		</>
 	)
 }

@@ -17,7 +17,7 @@ export interface DestinationProps {
 };
 
 const Destination = ({ index, planets, vehicles, selectedDestination, handleChange }: DestinationProps) => {
-
+	console.log(planets);
 	const onChangeDestination = (event: SelectChangeEvent) => {
 		handleChange('PLANET', index, event.target.value)
 	}
@@ -38,6 +38,7 @@ const Destination = ({ index, planets, vehicles, selectedDestination, handleChan
 				<InputLabel shrink htmlFor={`destination-${index}`}>{`Select Destination ${index + 1}`}</InputLabel>
 				<Select
 					native
+					data-testid={`destination-${index}`}
 					labelId={`destination-${index}`}
 					value={selectedValue}
 					onChange={onChangeDestination}
@@ -46,8 +47,8 @@ const Destination = ({ index, planets, vehicles, selectedDestination, handleChan
 						id: `destination-${index}`,
 					}}
 				>
-					<option value={selectedValue}>{selectedValue}</option>
-					{planets.map((planet: Planet) => <option value={planet.name}>{planet.name}</option>)}
+					<option key="select" value={selectedValue}>{selectedValue}</option>
+					{planets.map((planet: Planet) => <option key={planet.name} value={planet.name}>{planet.name}</option>)}
 				</Select>
 			</FormControl>
 			{selectedDestination?.planet?.name &&
